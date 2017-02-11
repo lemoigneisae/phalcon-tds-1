@@ -15,17 +15,41 @@
                 <label></label>
             </div>
         </th>
-        <th>{{ link_to(["for": "users", "page": 1, "sField": "firsname", "sens": "asc"],"Prénom") }}</th>
-        <th class="">Nom</th>
-        <th class="">Login</th>
-        <th class="">Email</th>
-        <th class="">Role</th>
-        <th></th>
+        {% if sens == "desc" and sField == "firstname"%}
+        <th class="sorted descending">{{ link_to("users/index/"~pager.current~"/firstname/asc/","Prénom") }}</th>
+        {% else %}
+        <th>{{ link_to("users/index/"~pager.current~"/firstname/desc/","Prénom") }}</th>
+        {% endif %}
 
+        {% if sens == "desc" and sField == "lastname"%}
+            <th class="sorted descending">{{ link_to("users/index/"~pager.current~"/lastname/asc/","Nom") }}</th>
+        {% else %}
+            <th>{{ link_to("users/index/"~pager.current~"/lastname/desc/","Nom") }}</th>
+        {% endif %}
+
+        {% if sens == "desc" and sField == "login"%}
+            <th class="sorted descending">{{ link_to("users/index/"~pager.current~"/login/asc/","Login") }}</th>
+        {% else %}
+            <th>{{ link_to("users/index/"~pager.current~"/login/desc/","Login") }}</th>
+        {% endif %}
+
+        {% if sens == "desc" and sField == "email"%}
+            <th class="sorted descending">{{ link_to("users/index/"~pager.current~"/email/asc/","Email") }}</th>
+        {% else %}
+            <th>{{ link_to("users/index/"~pager.current~"/email/desc/","Email") }}</th>
+        {% endif %}
+
+        {% if sens == "desc" and sField == "role"%}
+            <th class="sorted descending">{{ link_to("users/index","Role") }}</th>
+        {% else %}
+            <th>{{ link_to("users/index","Role") }}</th>
+        {% endif %}
+
+        <th></th>
     </tr>
     </thead>
     <tbody>
-        {% for user in utilisateurs %}
+        {% for user in pager.items %}
         <tr>
             <td>
                 <div class="ui checkbox">
@@ -33,8 +57,8 @@
                     <label></label>
                 </div>
             </td>
-            <td>{{ user.firstname }}</td>
-            <td>{{ user.lastname }}</td>
+            <td class="selectable">{{ link_to("users/show/"~user.id~"",user.firstname) }}</td>
+            <td class="selectable">{{ link_to("users/show/"~user.id~"",user.lastname) }}</td>
             <td>{{ user.login }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.getRole().getName() }}</td>
@@ -51,16 +75,11 @@
     <tfoot>
     <tr><th colspan="3">
             <div class="ui right floated pagination menu">
-                <a class="icon item">
-                    <i class="left chevron icon"></i>
-                </a>
-                <a class="item">1</a>
-                <a class="item">2</a>
-                <a class="item">3</a>
-                <a class="item">4</a>
-                <a class="icon item">
-                    <i class="right chevron icon"></i>
-                </a>
+                {{ link_to("users/index/"~pager.before~"/"~sField~"/"~sens~"/","<", 'class': 'item') }}
+                {{ link_to("users/index/"~pager.before~"/"~sField~"/"~sens~"/",pager.before, 'class': 'item') }}
+                {{ link_to("users/index/"~pager.current~"/"~sField~"/"~sens~"/",pager.current, 'class': 'item') }}
+                {{ link_to("users/index/"~pager.next~"/"~sField~"/"~sens~"/",pager.next, 'class': 'item') }}
+                {{ link_to("users/index/"~pager.next~"/"~sField~"/"~sens~"/",">", 'class': 'item') }}
             </div>
         </th>
     </tr></tfoot>

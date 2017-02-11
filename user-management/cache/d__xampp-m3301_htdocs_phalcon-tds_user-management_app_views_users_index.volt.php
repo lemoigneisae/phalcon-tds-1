@@ -15,17 +15,41 @@
                 <label></label>
             </div>
         </th>
-        <th><?= $this->tag->linkTo([['for' => 'users', 'page' => 1, 'sField' => 'firsname', 'sens' => 'asc'], 'Prénom']) ?></th>
-        <th class="">Nom</th>
-        <th class="">Login</th>
-        <th class="">Email</th>
-        <th class="">Role</th>
-        <th></th>
+        <?php if ($sens == 'desc' && $sField == 'firstname') { ?>
+        <th class="sorted descending"><?= $this->tag->linkTo(['users/index/' . $pager->current . '/firstname/asc/', 'Prénom']) ?></th>
+        <?php } else { ?>
+        <th><?= $this->tag->linkTo(['users/index/' . $pager->current . '/firstname/desc/', 'Prénom']) ?></th>
+        <?php } ?>
 
+        <?php if ($sens == 'desc' && $sField == 'lastname') { ?>
+            <th class="sorted descending"><?= $this->tag->linkTo(['users/index/' . $pager->current . '/lastname/asc/', 'Nom']) ?></th>
+        <?php } else { ?>
+            <th><?= $this->tag->linkTo(['users/index/' . $pager->current . '/lastname/desc/', 'Nom']) ?></th>
+        <?php } ?>
+
+        <?php if ($sens == 'desc' && $sField == 'login') { ?>
+            <th class="sorted descending"><?= $this->tag->linkTo(['users/index/' . $pager->current . '/login/asc/', 'Login']) ?></th>
+        <?php } else { ?>
+            <th><?= $this->tag->linkTo(['users/index/' . $pager->current . '/login/desc/', 'Login']) ?></th>
+        <?php } ?>
+
+        <?php if ($sens == 'desc' && $sField == 'email') { ?>
+            <th class="sorted descending"><?= $this->tag->linkTo(['users/index/' . $pager->current . '/email/asc/', 'Email']) ?></th>
+        <?php } else { ?>
+            <th><?= $this->tag->linkTo(['users/index/' . $pager->current . '/email/desc/', 'Email']) ?></th>
+        <?php } ?>
+
+        <?php if ($sens == 'desc' && $sField == 'role') { ?>
+            <th class="sorted descending"><?= $this->tag->linkTo(['users/index', 'Role']) ?></th>
+        <?php } else { ?>
+            <th><?= $this->tag->linkTo(['users/index', 'Role']) ?></th>
+        <?php } ?>
+
+        <th></th>
     </tr>
     </thead>
     <tbody>
-        <?php foreach ($utilisateurs as $user) { ?>
+        <?php foreach ($pager->items as $user) { ?>
         <tr>
             <td>
                 <div class="ui checkbox">
@@ -33,8 +57,8 @@
                     <label></label>
                 </div>
             </td>
-            <td><?= $user->firstname ?></td>
-            <td><?= $user->lastname ?></td>
+            <td class="selectable"><?= $this->tag->linkTo(['users/show/' . $user->id . '', $user->firstname]) ?></td>
+            <td class="selectable"><?= $this->tag->linkTo(['users/show/' . $user->id . '', $user->lastname]) ?></td>
             <td><?= $user->login ?></td>
             <td><?= $user->email ?></td>
             <td><?= $user->getRole()->getName() ?></td>
@@ -51,16 +75,11 @@
     <tfoot>
     <tr><th colspan="3">
             <div class="ui right floated pagination menu">
-                <a class="icon item">
-                    <i class="left chevron icon"></i>
-                </a>
-                <a class="item">1</a>
-                <a class="item">2</a>
-                <a class="item">3</a>
-                <a class="item">4</a>
-                <a class="icon item">
-                    <i class="right chevron icon"></i>
-                </a>
+                <?= $this->tag->linkTo(['users/index/' . $pager->before . '/' . $sField . '/' . $sens . '/', '<', 'class' => 'item']) ?>
+                <?= $this->tag->linkTo(['users/index/' . $pager->before . '/' . $sField . '/' . $sens . '/', $pager->before, 'class' => 'item']) ?>
+                <?= $this->tag->linkTo(['users/index/' . $pager->current . '/' . $sField . '/' . $sens . '/', $pager->current, 'class' => 'item']) ?>
+                <?= $this->tag->linkTo(['users/index/' . $pager->next . '/' . $sField . '/' . $sens . '/', $pager->next, 'class' => 'item']) ?>
+                <?= $this->tag->linkTo(['users/index/' . $pager->next . '/' . $sField . '/' . $sens . '/', '>', 'class' => 'item']) ?>
             </div>
         </th>
     </tr></tfoot>
