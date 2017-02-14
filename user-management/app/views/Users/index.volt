@@ -1,10 +1,17 @@
 <div class="ui container">
-    <div class="ui labeled input">
-        <div class="ui label">
-            <i class="add user icon"></i>
-            Nouvel utilisateur...
+    <div class="ui icon menu">
+        {{link_to("users/add", "
+        <i class='user add icon icon'></i>&nbsp;Nouvel utilisateur
+        ", 'class': 'item')}}
+
+        <div class="ui category search item">
+            <div class="ui transparent icon input">
+                <form method="get">
+                    <input name="filtre" class="prompt" type="text" placeholder="Rechercher...">
+                    <i class="search link icon"></i>
+                </form>
+            </div>
         </div>
-        <input type="text">
     </div>
 <table class="ui sortable striped table">
     <thead>
@@ -62,12 +69,10 @@
             <td>{{ user.login }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.getRole().getName() }}</td>
-            <td><button class="ui red basic icon button">
-                    <i class="edit icon"></i>
-                </button>
-                <button class="ui icon button">
-                    <i class="remove icon"></i>
-                </button>
+            <td>
+                {{linkTo("users/edit/"~user.getId(), "<i class='bordered edit icon'></i>")}}
+                {{linkTo("users/delete/"~user.getId(), "<i class='bordered red remove icon'></i>")}}
+
             </td>
         </tr>
         {% endfor %}
@@ -75,11 +80,26 @@
     <tfoot>
     <tr><th colspan="3">
             <div class="ui right floated pagination menu">
-                {{ link_to("users/index/"~pager.before~"/"~sField~"/"~sens~"/","<", 'class': 'item') }}
-                {{ link_to("users/index/"~pager.before~"/"~sField~"/"~sens~"/",pager.before, 'class': 'item') }}
-                {{ link_to("users/index/"~pager.current~"/"~sField~"/"~sens~"/",pager.current, 'class': 'item') }}
-                {{ link_to("users/index/"~pager.next~"/"~sField~"/"~sens~"/",pager.next, 'class': 'item') }}
-                {{ link_to("users/index/"~pager.next~"/"~sField~"/"~sens~"/",">", 'class': 'item') }}
+                {% if pager.current == 1 %}
+                    {{ link_to("users/index/"~pager.before~"/"~sField~"/"~sens~"/","<", 'class': 'item') }}
+                    {{ link_to("users/index/"~pager.current~"/"~sField~"/"~sens~"/",pager.current, 'class': 'item') }}
+                    {{ link_to("users/index/"~pager.next~"/"~sField~"/"~sens~"/",pager.next, 'class': 'item') }}
+                    {{ link_to("users/index/"~pager.next~"/"~sField~"/"~sens~"/",">", 'class': 'item') }}
+                {% else %}
+                    {% if pager.current == pager.last %}
+                        {{ link_to("users/index/"~pager.before~"/"~sField~"/"~sens~"/","<", 'class': 'item') }}
+                        {{ link_to("users/index/"~pager.before~"/"~sField~"/"~sens~"/",pager.before, 'class': 'item') }}
+                        {{ link_to("users/index/"~pager.current~"/"~sField~"/"~sens~"/",pager.current, 'class': 'item') }}
+                        {{ link_to("users/index/"~pager.next~"/"~sField~"/"~sens~"/",">", 'class': 'item') }}
+                        {% else %}
+                            {{ link_to("users/index/"~pager.before~"/"~sField~"/"~sens~"/","<", 'class': 'item') }}
+                            {{ link_to("users/index/"~pager.before~"/"~sField~"/"~sens~"/",pager.before, 'class': 'item') }}
+                            {{ link_to("users/index/"~pager.current~"/"~sField~"/"~sens~"/",pager.current, 'class': 'item') }}
+                            {{ link_to("users/index/"~pager.next~"/"~sField~"/"~sens~"/",pager.next, 'class': 'item') }}
+                            {{ link_to("users/index/"~pager.next~"/"~sField~"/"~sens~"/",">", 'class': 'item') }}
+                        {% endif %}
+                {% endif %}
+
             </div>
         </th>
     </tr></tfoot>

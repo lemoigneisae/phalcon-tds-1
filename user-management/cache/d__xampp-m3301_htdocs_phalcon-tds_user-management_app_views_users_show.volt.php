@@ -2,7 +2,7 @@
 
     <button class="ui labeled icon button">
         <i class="user icon"></i>
-        <?= $this->tag->linkTo(['/users/index', 'Retour à la liste']) ?>
+        <?= $this->tag->linkTo(['users/index', 'Retour à la liste']) ?>
     </button>
 
     <table class="ui celled table">

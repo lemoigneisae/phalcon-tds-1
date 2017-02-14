@@ -2,7 +2,7 @@
 
     <button class="ui labeled icon button">
         <i class="user icon"></i>
-        {{ link_to("/users/index","Retour à la liste") }}
+        {{ link_to("users/index","Retour à la liste") }}
     </button>
 
     <table class="ui celled table">
