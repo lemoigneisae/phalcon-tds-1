@@ -38,7 +38,7 @@
                 </div>
                 <div class="field required">
                     <label>Mot de passe</label>
-                    <input name="password" value="{{updateUser.getPassword()}}" placeholder="Email" type="password">
+                    <input name="password" value="{{updateUser.getPassword()}}" placeholder="password" type="password">
                 </div>
             </div>
             <div class="fields">
