@@ -119,13 +119,15 @@ public function initialize(){
     }
 
     public function postForm2Action(){
-        $button1 = $this->semantic->htmlButton("btUser1","User 1");
-        $button1->getOnClick("test/user/1","#formUser");
-        
+        $button1 = $this->semantic->htmlButton("btUser1","User 1","user");
+        $button1->setProperty("data-ajax",1);
 
-        $button2 = $this->semantic->htmlButton("btUser2","User 2");
+
+        $button2 = $this->semantic->htmlButton("btUser2","User 2","user");
         $button1->setProperty("style","float:left;");
         $button2->setProperty("style","float:left;");
+
+        $this->jquery->jsonOn("click",".user","test/user/",["attr"=>"data-ajax"]);
 
         $form=$this->semantic->htmlForm("formUser");
         $form->addInput("nom","Nom");
@@ -144,9 +146,10 @@ public function initialize(){
 
 
     public function userAction($id=null){
+
         $userArray=array(
-            '{"nom":"SMITH","email":"BSMITH@mail.com"}',
-            '{"nom":"DOE","email":"jdoe@mail.com"}'
+            "{\"nom\":\"SMITH\",\"email\":\"BSMITH@mail.com\"}",
+            "{\"nom\":\"DOE\",\"email\":\"jdoe@mail.com\"}"
         );
      return $userArray[$id];
     }
